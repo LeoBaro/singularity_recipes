@@ -1,0 +1,1 @@
+$ singularity run -B $HOME/run-tmp:/run ./vscode.sif

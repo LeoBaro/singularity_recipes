@@ -1,0 +1,1 @@
+sudo /home/leobaro/softwares/singularity-3.7.1-install-dir/bin/singularity build vscode.sif vscode.recipe

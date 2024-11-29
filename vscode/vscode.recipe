@@ -1,0 +1,40 @@
+BootStrap: docker
+From: ubuntu:22.04
+
+%post
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get -y update
+  apt-get -y install wget git curl gnupg
+
+  cd /
+  wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O code_stable_amd64.deb
+  apt-get -y install ./code_stable_amd64.deb
+
+  data_dir=$HOME/.config/Code
+  extensions_dir=/data/code-extensions
+
+  mkdir -p $data_dir
+  mkdir -p $extensions_dir
+
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension Continue.continue
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension ms-python.python
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension eamodio.gitlens
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension redhat.vscode-yaml
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension GitHub.github-vscode-theme  
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension mhutchie.git-graph
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension yzhang.markdown-all-in-one
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension oderwat.indent-rainbow
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension aaron-bond.better-comments
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension Gruntfuggly.todo-tree
+
+  apt-get clean
+  rm -rf /var/lib/apt/lists/*
+
+%environment
+  export LC_ALL=C
+  export CODE_EXTENSIONS_DIR=/data/code-extensions
+
+%runscript
+  echo "Starting VS Code..." > /tmp/vscode_debug.log
+  /usr/bin/code --extensions-dir=$CODE_EXTENSIONS_DIR "$@" >> /tmp/vscode_debug.log 2>&1
+  echo "VS Code exited with status $?" >> /tmp/vscode_debug.log
