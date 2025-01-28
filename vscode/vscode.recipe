@@ -26,6 +26,8 @@ From: ubuntu:22.04
   code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension oderwat.indent-rainbow
   code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension aaron-bond.better-comments
   code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension Gruntfuggly.todo-tree
+  code --user-data-dir=$data_dir --extensions-dir=$extensions_dir --no-sandbox --force --install-extension ms-toolsai.jupyter
+
 
   apt-get clean
   rm -rf /var/lib/apt/lists/*
@@ -38,3 +40,7 @@ From: ubuntu:22.04
   echo "Starting VS Code..." > /tmp/vscode_debug.log
   /usr/bin/code --extensions-dir=$CODE_EXTENSIONS_DIR "$@" >> /tmp/vscode_debug.log 2>&1
   echo "VS Code exited with status $?" >> /tmp/vscode_debug.log
+
+%labels
+    Version 0.2
+    Add jupyter extension
